@@ -13,7 +13,7 @@
     <section class="header">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="#">Testing Bootstrap</a>
+                <a class="navbar-brand" href="/about">ABOUT</a>
                 <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -25,13 +25,13 @@
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">Home</a>
+                                <a class="nav-link" href="/">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="faq.blade.php">FAQ</a>
+                                <a class="nav-link" href="/faq">FAQ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="about.blade.php">About</a>
+                                <a class="nav-link active" aria-current="page" href="/about">About</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
