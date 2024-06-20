@@ -1,108 +1,80 @@
-@extends('template.template')
+@extends ('template.template')
 
 @section('content')
 
-<section class="header">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="/">HOME</a>
-      <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="sidebar offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Dark offcanvas</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/faq">FAQ</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/about">About</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Other Shi
-              </a>
-              <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="#">Try</a></li>
-                <li><a class="dropdown-item" href="#">Try</a></li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </li>
-          </ul>
-          <form class="d-flex mt-3" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-success" type="submit">Search</button>
-          </form>
-        </div>
-      </div>
+<section class="text-white container-fluid p-1 px-3">
+    <div class="d-flex justify-content-center">
+        <button class="btn btn-primary px-5 mb-4" id="addBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">ADD</button>
     </div>
-  </nav>
+
+    <div class="row row-cols-1 row-cols-lg-3 gy-3">
+        @foreach($to_dos as $todo)
+        <div class="col">
+            <div class="card {{$todo->status != 'complete' ? '' : 'text-bg-success'}} position-relative">
+                <a href="/deletetodo?id={{$todo->id}}" class="jl-x-btn position-absolute top-0 end-0 pe-3">X</a>
+                <div class="card-body">
+                    <h5 class="card-title">{{$todo->title}}</h5>
+
+                    <p class="card-text">{{$todo->description}}</p>
+                    @if ($todo->status != 'complete')
+                    <a href="/completetodo?id={{$todo->id}}" class="btn btn-success">Complete</a>
+                    @endif
+                    <a href="#" class="btn btn-primary update-btn" data-id="{{$todo->id}}" data-title="{{$todo->title}}" data-description="{{$todo->description}}" data-bs-toggle="modal" data-bs-target="#exampleModal">Update</a>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+
 </section>
 
-<section class="home">
-  <div class="main-wrapper flex-box">
-    <div class="add-todo">
-      <button class="btn btn-primary add-button">ADD</button>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalTitle">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/addtodo" method="post" id="modalForm">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-floating mb-3">
+                        <input name="title" type="text" class="form-control" id="title" placeholder="Get a Job.">
+                        <label for="floatingInput">Title</label>
+                    </div>
+                    <div class="form-floating">
+                        <textarea name="description" class="form-control" placeholder="Leave a comment here" id="description"></textarea>
+                        <label for="floatingTextarea">Description</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="cards-todo">
-      <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-          <div class="card">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title 1</h5>
-              <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <button class="btn btn-primary card-btn">Update</button>
-              <button class="btn btn-warning card-btn">Delete</button>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title 2</h5>
-              <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <button class="btn btn-primary card-btn">Update</button>
-              <button class="btn btn-warning card-btn">Delete</button>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title 3</h5>
-              <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-              <button class="btn btn-primary card-btn">Update</button>
-              <button class="btn btn-warning card-btn">Delete</button>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title 4</h5>
-              <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <button class="btn btn-primary card-btn">Update</button>
-              <button class="btn btn-warning card-btn">Delete</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+</div>
 
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('.update-btn').on('click', function() {
+            let id = $(this).data('id');
+            $('#title').val($(this).data('title'))
+            $('#description').val($(this).data('description'))
+            $('#modalTitle').text('UPDATE')
+            $('#modalForm').attr('action', '/updatetodo?id=' + id)
+        })
+
+        $('#addBtn').on('click', function() {
+            $('#title').val('')
+            $('#description').val('')
+            $('#modalTitle').text('ADD')
+            $('#modalForm').attr('action', '/addtodo')
+        })
+
+    })
+</script>
+@endpush
